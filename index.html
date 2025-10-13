@@ -7,45 +7,58 @@
 
   <!-- Google Tag Manager -->
   <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[]; w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
       var f=d.getElementsByTagName(s)[0], j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl; f.parentNode.insertBefore(j,f);
+      j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-P6SC6N4M');
   </script>
 
+  <!-- Si quieres que Google indexe, elimina esta meta -->
   <meta name="robots" content="noindex">
+
   <style>
     :root {
-      --bg: #0b0c10;
-      --panel: #111218;
-      --border: #222431;
-      --text: #e6e6e6;
-      --muted: #bdbdbd;
-      --accent: #4ea8de;
+      --bg:#0b0c10; --panel:#111218; --border:#222431; --text:#e6e6e6; --muted:#bdbdbd; --accent:#4ea8de;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-    header, footer { background: var(--panel); border-bottom: 1px solid var(--border); }
-    header { padding: 14px 18px; }
-    h1 { font-size: 18px; margin: 0; letter-spacing: .2px; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-    .btn { display: block; padding: 10px 12px; background: #141622; border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text); font-size: 14px; line-height: 1.25; }
-    .btn:hover { border-color: var(--accent); transform: translateY(-1px); transition: all .15s ease; }
-    .subtle { color: var(--muted); font-size: 12px; }
-    .iframe-wrap { position: relative; padding-top: 56.25%; background: #0f1117; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-    .pill { display: inline-block; padding: 2px 8px; border: 1px solid var(--border); border-radius: 999px; font-size: 11px; color: var(--muted); }
-    .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header,footer{background:var(--panel);border-bottom:1px solid var(--border)}
+    header{padding:14px 18px}
+    h1{font-size:18px;margin:0;letter-spacing:.2px}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px}
+    .btn{display:block;padding:10px 12px;background:#141622;border:1px solid var(--border);
+      border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;line-height:1.25;outline:none}
+    .btn:hover,.btn:focus{border-color:var(--accent);transform:translateY(-1px);transition:all .15s ease;box-shadow:0 0 0 3px rgba(78,168,222,.15)}
+    .subtle{color:var(--muted);font-size:12px}
+    .iframe-wrap{position:relative;padding-top:56.25%;background:#0f1117;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+    iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .pill{display:inline-block;padding:2px 8px;border:1px solid var(--border);border-radius:999px;font-size:11px;color:var(--muted)}
+    .row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
   </style>
+
   <script>
-    // Marca de contexto para GA4 via GTM
+    // -------- Contexto base para GA4 vía GTM --------
     window.dataLayer = window.dataLayer || [];
+
+    // UUID anónimo por navegador para deduplicación
+    (function(){
+      try{
+        const KEY='dh_uid';
+        if(!localStorage.getItem(KEY)){ localStorage.setItem(KEY, crypto.randomUUID()); }
+        window.dh_uid = localStorage.getItem(KEY);
+      }catch(e){}
+    })();
+
     window.dataLayer.push({
-      event: 'dh_pageview',
-      page_kind: 'indice_master',
-      section: 'Datos Hacendarios'
+      event:'dh_pageview',
+      page_kind:'indice_master',
+      section:'Datos Hacendarios',
+      user_id: window.dh_uid || null
     });
   </script>
 </head>
@@ -64,198 +77,199 @@
 
   <main class="container">
     <div class="card" style="margin-bottom:14px;">
-      <div class="grid">
-        
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNGJkYjJjNDItNjdjYS00YTg3LWE3YjUtZDMzYjUwZTMxNzlmIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'presupuesto_capitulos_2015_2024',
-             report_name: 'Presupuestos de egresos estatales a nivel capítulo (2015–2024)',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiNGJkYjJjNDItNjdjYS00YTg3LWE3YjUtZDMzYjUwZTMxNzlmIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+      <div class="grid" id="reportsGrid">
+
+        <!-- Cada enlace con data-* para telemetría -->
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiNGJkYjJjNDItNjdjYS00YTg3LWE3YjUtZDMzYjUwZTMxNzlmIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="presupuesto_capitulos_2015_2024"
+           data-report-name="Presupuestos de egresos estatales a nivel capítulo (2015–2024)">
           Presupuestos de egresos estatales a nivel capítulo (2015–2024)
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiMzgxODE4ZDEtYTRjNi00MDZiLTg1ZWMtMTkyNDMzMTlmNjc4IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'presupuesto_egresos_2000_2023',
-             report_name: 'Presupuesto de egresos (2000–2023)',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiMzgxODE4ZDEtYTRjNi00MDZiLTg1ZWMtMTkyNDMzMTlmNjc4IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiMzgxODE4ZDEtYTRjNi00MDZiLTg1ZWMtMTkyNDMzMTlmNjc4IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="presupuesto_egresos_2000_2023"
+           data-report-name="Presupuesto de egresos (2000–2023)">
           Presupuesto de egresos (2000–2023)
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiMTk3YzZmMmQtZDA2OC00YTBlLWIwNWEtOWMwMWM2NTNjZWJhIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'presupuesto_egresos_entidad',
-             report_name: 'Presupuesto de egresos por entidad federativa',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiMTk3YzZmMmQtZDA2OC00YTBlLWIwNWEtOWMwMWM2NTNjZWJhIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiMTk3YzZmMmQtZDA2OC00YTBlLWIwNWEtOWMwMWM2NTNjZWJhIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="presupuesto_egresos_entidad"
+           data-report-name="Presupuesto de egresos por entidad federativa">
           Presupuesto de egresos por entidad federativa
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNzg1MWNhM2UtNDFhNy00YzUyLWExZDEtMjkxMWRiNDE5MTEwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'efipem_1989_2024',
-             report_name: 'EFIPEM (1989–2024) — estadísticas de finanzas públicas',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiNzg1MWNhM2UtNDFhNy00YzUyLWExZDEtMjkxMWRiNDE5MTEwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiNzg1MWNhM2UtNDFhNy00YzUyLWExZDEtMjkxMWRiNDE5MTEwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2Mw-LTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="efipem_1989_2024"
+           data-report-name="EFIPEM (1989–2024) — estadísticas de finanzas públicas">
           EFIPEM (1989–2024) — estadísticas de finanzas públicas
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiMmZjZGZmN2QtOWFjMS00OTM4LWFhNTAtMDc1OWI2Mzg0NDVmIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'cuentas_publicas_municipios_capitales',
-             report_name: 'Cuentas públicas de los municipios capitales',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiMmZjZGZmN2QtOWFjMS00OTM4LWFhNTAtMDc1OWI2Mzg0NDVmIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiMmZjZGZmN2QtOWFjMS00OTM4LWFhNTAtMDc1OWI2Mzg0NDVmIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="cuentas_publicas_municipios_capitales"
+           data-report-name="Cuentas públicas de los municipios capitales">
           Cuentas públicas de los municipios capitales
         </a>
-        
 
-        <a class="btn" href="https://TU_SERVIDOR/link/ingresos_lei_2019_2025" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'leyes_ingresos_2019_2025',
-             report_name: 'Estadísticas de Leyes de Ingresos (2019–2025)',
-             report_url: 'https://TU_SERVIDOR/link/ingresos_lei_2019_2025'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://TU_SERVIDOR/link/ingresos_lei_2019_2025"
+           data-report-id="leyes_ingresos_2019_2025"
+           data-report-name="Estadísticas de Leyes de Ingresos (2019–2025)">
           Estadísticas de Leyes de Ingresos (2019–2025)
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNDdlZGRlNDAtZGNlNC00NDBiLTk0YmQtYTBhMjUwM2NkOWMwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9&amp;pageName=ReportSection3b90823ea5fa0795f306" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'leyes_ingresos_impuestos_2019_2025',
-             report_name: 'Estadísticas de Leyes de Ingresos — Impuestos (2019–2025)',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiNDdlZGRlNDAtZGNlNC00NDBiLTk0YmQtYTBhMjUwM2NkOWMwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9&amp;pageName=ReportSection3b90823ea5fa0795f306'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiNDdlZGRlNDAtZGNlNC00NDBiLTk0YmQtYTBhMjUwM2NkOWMwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9&pageName=ReportSection3b90823ea5fa0795f306"
+           data-report-id="leyes_ingresos_impuestos_2019_2025"
+           data-report-name="Estadísticas de Leyes de Ingresos — Impuestos (2019–2025)">
           Estadísticas de Leyes de Ingresos — Impuestos (2019–2025)
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiYjdiYzkzNzgtMDJlOS00NTIyLTgzNGEtZTQ2YzZhOTI4ZGZlIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'efipem_1989_2023',
-             report_name: 'EFIPEM (1989–2023) — estadísticas de finanzas públicas',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiYjdiYzkzNzgtMDJlOS00NTIyLTgzNGEtZTQ2YzZhOTI4ZGZlIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiYjdiYzkzNzgtMDJlOS00NTIyLTgzNGEtZTQ2YzZhOTI4ZGZlIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="efipem_1989_2023"
+           data-report-name="EFIPEM (1989–2023) — estadísticas de finanzas públicas">
           EFIPEM (1989–2023) — estadísticas de finanzas públicas
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNWI3NmRiZjYtMzczMy00M2Q4LWE2YjctNDBiMmZmOWFjNDgwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'deuda_publica_municipal',
-             report_name: 'Reporte de deuda pública municipal',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiNWI3NmRiZjYtMzczMy00M2Q4LWE2YjctNDBiMmZmOWFjNDgwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiNWI3NmRiZjYtMzczMy00M2Q4LWE2YjctNDBiMmZmOWFjNDgwIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="deuda_publica_municipal"
+           data-report-name="Reporte de deuda pública municipal">
           Reporte de deuda pública municipal
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiZjkzYmJkZWYtNTZkZi00NzMxLTkyMjItMjc2ZGRjMTVjMGQxIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9&amp;pageName=ReportSection" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'balance_cuentas_publicas_2014_2024',
-             report_name: 'Balance de Cuentas Públicas (2014–2024)',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiZjkzYmJkZWYtNTZkZi00NzMxLTkyMjItMjc2ZGRjMTVjMGQxIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9&amp;pageName=ReportSection'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiZjkzYmJkZWYtNTZkZi00NzMxLTkyMjItMjc2ZGRjMTVjMGQxIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9&pageName=ReportSection"
+           data-report-id="balance_cuentas_publicas_2014_2024"
+           data-report-name="Balance de Cuentas Públicas (2014–2024)">
           Balance de Cuentas Públicas (2014–2024)
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNGZkZmM5OGItNDljYi00MDExLWFlZTctNTMxZjRiZjEwMTVkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'balance_ingresos_egresos_2025_2030',
-             report_name: 'Balance de Ingresos y Egresos Proyectados (2025–2030)',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiNGZkZmM5OGItNDljYi00MDExLWFlZTctNTMxZjRiZjEwMTVkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiNGZkZmM5OGItNDljYi00MDExLWFlZTctNTMxZjRiZjEwMTVkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="balance_ingresos_egresos_2025_2030"
+           data-report-name="Balance de Ingresos y Egresos Proyectados (2025–2030)">
           Balance de Ingresos y Egresos Proyectados (2025–2030)
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiZWMzNjhlNzItZjFiZi00MGMwLWJmNzQtMjE1MDE1NWYwMDJiIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'balance_ldf_2017_2024',
-             report_name: 'Balance resultado de ingresos y egresos LDF (2017–2024)',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiZWMzNjhlNzItZjFiZi00MGMwLWJmNzQtMjE1MDE1NWYwMDJiIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiZWMzNjhlNzItZjFiZi00MGMwLWJmNzQtMjE1MDE1NWYwMDJiIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="balance_ldf_2017_2024"
+           data-report-name="Balance resultado de ingresos y egresos LDF (2017–2024)">
           Balance resultado de ingresos y egresos LDF (2017–2024)
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNWNjNmQ4YWMtNjNhMi00OTg1LWE4MDUtM2QwNThjZGU5MDI3IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'estado_analitico_ingresos_ldf',
-             report_name: 'Estado Analítico de los Ingresos LDF',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiNWNjNmQ4YWMtNjNhMi00OTg1LWE4MDUtM2QwNThjZGU5MDI3IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiNWNjNmQ4YWMtNjNhMi00OTg1LWE4MDUtM2QwNThjZGU5MDI3IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="estado_analitico_ingresos_ldf"
+           data-report-name="Estado Analítico de los Ingresos LDF">
           Estado Analítico de los Ingresos LDF
         </a>
-        
 
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiMzY4NmVlNGEtN2M5Zi00OTM3LTkwMDMtYThmMWQ5NjU0ZTg0IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'mapas_personal_ocupado',
-             report_name: 'Mapas de personal ocupado por actividad económica',
-             report_url: 'https://app.powerbi.com/view?r=eyJrIjoiMzY4NmVlNGEtN2M5Zi00OTM3LTkwMDMtYThmMWQ5NjU0ZTg0IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://app.powerbi.com/view?r=eyJrIjoiMzY4NmVlNGEtN2M5Zi00OTM3LTkwMDMtYThmMWQ5NjU0ZTg0IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+           data-report-id="mapas_personal_ocupado"
+           data-report-name="Mapas de personal ocupado por actividad económica">
           Mapas de personal ocupado por actividad económica
         </a>
-        
 
-        <a class="btn" href="https://docs.google.com/document/d/10RLCM-ztFlxliDq9sQBw6rAsWcXXTZ7G/edit?usp=sharing&amp;ouid=101487310272789140096&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'refrendo_2012_2025_doc',
-             report_name: 'Modificaciones del refrendo anual en las entidades federativas: 2012 y 2025 (Google Doc)',
-             report_url: 'https://docs.google.com/document/d/10RLCM-ztFlxliDq9sQBw6rAsWcXXTZ7G/edit?usp=sharing&amp;ouid=101487310272789140096&amp;rtpof=true&amp;sd=true'
-           });">
+        <a class="btn" target="_blank" rel="noopener noreferrer"
+           href="https://docs.google.com/document/d/10RLCM-ztFlxliDq9sQBw6rAsWcXXTZ7G/edit?usp=sharing&ouid=101487310272789140096&rtpof=true&sd=true"
+           data-report-id="refrendo_2012_2025_doc"
+           data-report-name="Modificaciones del refrendo anual en las entidades federativas: 2012 y 2025 (Google Doc)">
           Modificaciones del refrendo anual en las entidades federativas: 2012 y 2025 (Google Doc)
         </a>
-        
+
       </div>
     </div>
 
     <div class="card">
       <div class="row">
-        <div class="subtle">Reporte maestro embebido (se contabiliza la visita a esta página y puedes medir interacción con visibilidad/tiempo).</div>
+        <div class="subtle">Reporte maestro embebido (vista pública, sin inicio de sesión).</div>
       </div>
       <div class="iframe-wrap">
-        <iframe id="pbiMaster" title="Power BI Master" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://app.powerbi.com/reportEmbed?reportId=bb2a9013-ec52-4589-9bde-60f1d6730a4b&amp;autoAuth=true&amp;ctid=4473716b-27f2-407e-8654-add8be995816"></iframe>
+        <!-- IMPORTANTE: usa el link público 'view?r=' para evitar login -->
+        <iframe id="pbiMaster" title="Power BI Master" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://app.powerbi.com/view?r=REEMPLAZA_AQUI_TU_TOKEN_PUBLICO"></iframe>
       </div>
     </div>
   </main>
 
-  <footer class="container" style="padding: 12px 16px;">
-    <span class="subtle">Seguimiento vía Google Tag Manager (GTM-P6SC6N4M) · Eventos: <code>dh_pageview</code>, <code>dh_link_click</code></span>
+  <footer class="container" style="padding:12px 16px;">
+    <span class="subtle">Seguimiento vía Google Tag Manager (GTM-P6SC6N4M) · Eventos: <code>dh_pageview</code>, <code>dh_link_click</code>, <code>dh_master_loaded</code>, <code>dh_master_visible</code></span>
   </footer>
 
   <script>
-    // (Opcional) Marca cuando el iframe del master carga
-    document.getElementById('pbiMaster').addEventListener('load', function() {
-      window.dataLayer.push({
-        event: 'dh_master_loaded',
-        report_name: 'Master Índice DH',
-        report_url: 'https://app.powerbi.com/reportEmbed?reportId=bb2a9013-ec52-4589-9bde-60f1d6730a4b&amp;autoAuth=true&amp;ctid=4473716b-27f2-407e-8654-add8be995816'
+    // -------- Telemetría de clics por delegación (sin onclick en línea) --------
+    (function(){
+      const grid = document.getElementById('reportsGrid');
+      const seen = new Set(); // anti-rebote muy básico (misma URL en <1s)
+      grid.addEventListener('click', function(e){
+        const a = e.target.closest('a.btn');
+        if(!a) return;
+        const id = a.dataset.reportId || 'desconocido';
+        const name = a.dataset.reportName || a.textContent.trim();
+        const url = a.href;
+        const key = id + '|' + Date.now();
+        if(seen.size > 100) seen.clear();
+        // Empuja a dataLayer
+        window.dataLayer.push({
+          event: 'dh_link_click',
+          report_id: id,
+          report_name: name,
+          report_url: url,
+          user_id: window.dh_uid || null
+        });
+        seen.add(key);
+      }, { passive:true });
+    })();
+
+    // -------- Marca cuando el iframe del master carga --------
+    (function(){
+      const iframe = document.getElementById('pbiMaster');
+      if(!iframe) return;
+      iframe.addEventListener('load', function(){
+        window.dataLayer.push({
+          event: 'dh_master_loaded',
+          report_name: 'Master Índice DH',
+          report_url: iframe.src,
+          user_id: window.dh_uid || null
+        });
       });
-    });
+    })();
+
+    // -------- Visibilidad real del iframe (evita conteos falsos) --------
+    (function(){
+      const iframe = document.getElementById('pbiMaster');
+      if(!('IntersectionObserver' in window) || !iframe) return;
+
+      let counted = false;
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          // Considera "visto" si el 60% del iframe es visible al menos 1.2s
+          if(entry.isIntersecting && entry.intersectionRatio >= 0.6 && !counted){
+            counted = true;
+            setTimeout(()=>{
+              if(counted){ // sigue visible
+                window.dataLayer.push({
+                  event: 'dh_master_visible',
+                  visible_pct: Math.round(entry.intersectionRatio*100),
+                  user_id: window.dh_uid || null
+                });
+              }
+            }, 1200);
+          }
+        });
+      }, { threshold:[0.6] });
+      observer.observe(iframe);
+    })();
   </script>
 </body>
 </html>
+
