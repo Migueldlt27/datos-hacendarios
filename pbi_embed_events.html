@@ -3,227 +3,127 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>INDETEC · Datos Hacendarios (Índice + Master)</title>
+  <title>INDETEC · Datos Hacendarios (Master)</title>
 
   <!-- Google Tag Manager -->
   <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-      var f=d.getElementsByTagName(s)[0], j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
-      j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),
+          dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
       f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-P6SC6N4M');
+    })(window,document,'script','dataLayer','GTM-XXXXXXX'); /* ← Reemplaza por tu ID real */
   </script>
+  <!-- End Google Tag Manager -->
 
-  <meta name="robots" content="noindex">
   <style>
-    :root {
-      --bg: #0b0c10;
-      --panel: #111218;
-      --border: #222431;
-      --text: #e6e6e6;
-      --muted: #bdbdbd;
-      --accent: #4ea8de;
-    }
-    * { box-sizing: border-box; }
-    html, body {
-      height: 100%;
+    body {
       margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-    }
-    header, footer {
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
-    }
-    header { padding: 14px 18px; }
-    h1 { font-size: 18px; margin: 0; letter-spacing: .2px; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-    }
-    .btn {
-      display: block;
-      padding: 10px 12px;
-      background: #141622;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      text-decoration: none;
-      color: var(--text);
-      font-size: 14px;
-      line-height: 1.25;
-    }
-    .btn:hover {
-      border-color: var(--accent);
-      transform: translateY(-1px);
-      transition: all .15s ease;
-    }
-    .subtle { color: var(--muted); font-size: 12px; }
-    .pill {
-      display: inline-block;
-      padding: 2px 8px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .row {
+      padding: 0;
+      background: #f7f7f7;
       display: flex;
+      justify-content: center;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
+      height: 100vh;
     }
-    iframe#pbiMaster:hover {
-      box-shadow: 0 0 20px rgba(78,168,222,0.25);
-      transition: box-shadow 0.3s ease;
+    iframe {
+      width: 100%;
+      height: 100vh;
+      border: none;
     }
   </style>
-
-  <script>
-    // Contexto para GA4 via GTM
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'dh_pageview',
-      page_kind: 'indice_master',
-      section: 'Datos Hacendarios'
-    });
-  </script>
 </head>
 
 <body>
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P6SC6N4M"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
-  <!-- ENCABEZADO PRINCIPAL -->
-  <header>
-    <div class="container">
-      <div class="row">
-        <h1>INDETEC · Datos Hacendarios</h1>
-        <span class="pill">índice + master</span>
-      </div>
-      <div class="subtle">
-        Haz clic en un reporte para abrirlo (se medirá el evento de clic). Abajo puedes ver el reporte maestro embebido.
-      </div>
-    </div>
-  </header>
+  <!-- === IFRAME DE POWER BI (Archivo Maestro) === -->
+  <iframe id="pbi-master" 
+    src="https://app.powerbi.com/view?r=eyJrIjoiYjY4ZTVlMTEtNTExNS00OTU5LTgzZmUtNTZiYmVlZjQ1MzRkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+    allowfullscreen="true">
+  </iframe>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="container">
-
-    <!-- GRID DE REPORTES -->
-    <div class="card" style="margin-bottom:14px;">
-      <div class="grid">
-        <!-- Ejemplo de botón con seguimiento -->
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNGJkYjJjNDItNjdjYS00YTg3LWE3YjUtZDMzYjUwZTMxNzlmIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'presupuesto_capitulos_2015_2024',
-             report_name: 'Presupuestos de egresos estatales a nivel capítulo (2015–2024)'
-           });">
-          Presupuestos de egresos estatales a nivel capítulo (2015–2024)
-        </a>
-
-        <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiMzgxODE4ZDEtYTRjNi00MDZiLTg1ZWMtMTkyNDMzMTlmNjc4IiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9" target="_blank" rel="noopener noreferrer"
-           onclick="window.dataLayer.push({
-             event: 'dh_link_click',
-             report_id: 'presupuesto_egresos_2000_2023',
-             report_name: 'Presupuesto de egresos (2000–2023)'
-           });">
-          Presupuesto de egresos (2000–2023)
-        </a>
-
-        <!-- Agrega aquí el resto de tus botones exactamente como en tu versión actual -->
-        <!-- ... -->
-      </div>
-    </div>
-
-    <!-- BLOQUE INSTITUCIONAL DEL REPORTE MAESTRO -->
-    <section style="
-      background: #0d0f16;
-      border: 1px solid #232633;
-      border-radius: 14px;
-      box-shadow: 0 0 18px rgba(0,0,0,0.4);
-      padding: 28px 20px;
-      max-width: 1150px;
-      margin: 30px auto;
-    ">
-
-      <!-- Encabezado institucional -->
-      <div style="text-align:center; margin-bottom:16px;">
-        <img src="https://www.indetec.gob.mx/images/logo-indetec-blanco.png"
-             alt="Logo INDETEC"
-             style="width:110px; height:auto; margin-bottom:8px; filter:brightness(1.2);">
-        <h2 style="
-          font-size:22px;
-          color:#e6e6e6;
-          margin:0;
-          letter-spacing:0.5px;
-          font-weight:600;
-        ">
-          Datos Hacendarios · Ciencia de Datos INDETEC
-        </h2>
-        <p style="color:#bdbdbd; font-size:14px; margin-top:6px;">
-          Reporte maestro embebido — vista pública (sin inicio de sesión)
-        </p>
-      </div>
-
-      <!-- Contenedor del iframe -->
-      <div style="
-        position:relative;
-        padding-top:56.25%;
-        background:#0f1117;
-        border:1px solid #2a2d3a;
-        border-radius:12px;
-        overflow:hidden;
-      ">
-        <iframe
-          id="pbiMaster"
-          title="Power BI Master – Datos Hacendarios"
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://app.powerbi.com/view?r=REEMPLAZA_AQUI_TU_TOKEN_PUBLICO"
-          style="
-            position:absolute;
-            inset:0;
-            width:100%;
-            height:100%;
-            border:0;
-            border-radius:12px;
-          ">
-        </iframe>
-      </div>
-
-      <!-- Fuente institucional -->
-      <p style="text-align:center; font-size:12.5px; color:#9e9e9e; margin-top:14px;">
-        Fuente: INDETEC — Instituto para el Desarrollo Técnico de las Haciendas Públicas.<br>
-        Elaboración propia con datos hacendarios federales y estatales.
-      </p>
-    </section>
-  </main>
-
-  <!-- PIE DE PÁGINA -->
-  <footer class="container" style="padding: 12px 16px;">
-    <span class="subtle">
-      Seguimiento vía Google Tag Manager (GTM-P6SC6N4M) · Eventos: <code>dh_pageview</code>, <code>dh_link_click</code>, <code>dh_master_loaded</code>
-    </span>
-  </footer>
-
-  <!-- Script para registrar carga del Master -->
+  <!-- === SCRIPT DE CONTABILIZACIÓN === -->
   <script>
-    document.getElementById('pbiMaster').addEventListener('load', function() {
-      window.dataLayer.push({
-        event: 'dh_master_loaded',
-        report_name: 'Master Índice DH',
-        report_url: this.src
-      });
-    });
-  </script>
+    // Configuración de mapeo (r → nombre del reporte)
+    const PBI_REPORT_MAP = {
+      "eyJrIjoiYjY4ZTVlMTEtNTExNS00OTU5LTgzZmUtNTZiYmVlZjQ1MzRkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9": "Archivo Maestro"
+    };
 
+    // === URL del endpoint de Google Apps Script ===
+    const ENDPOINT = "https://script.google.com/macros/s/TU_URL_WEBAPP/exec"; // ← Sustituye esto
+
+    // === Utilidades ===
+    function getParam(url, key) {
+      try {
+        const u = new URL(url);
+        return u.searchParams.get(key) || null;
+      } catch(e) { return null; }
+    }
+
+    function shouldCount(r) {
+      try {
+        const key = `pbi_counted_${r}`;
+        if (sessionStorage.getItem(key)) return false;
+        sessionStorage.setItem(key, "1");
+        return true;
+      } catch(e) { return true; }
+    }
+
+    function pushToDataLayer(r, name, src) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "pbi_view",
+        pbi_r: r,
+        pbi_report_name: name,
+        pbi_src: src,
+        pbi_source: "github_embed"
+      });
+    }
+
+    function sendToSheet(r, name, src) {
+      try {
+        fetch(ENDPOINT, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            r: r,
+            name: name,
+            src: src,
+            source: "GitHub",
+            userAgent: navigator.userAgent,
+            ts: Date.now()
+          }),
+          keepalive: true
+        });
+      } catch(e) { console.error("Error al enviar datos:", e); }
+    }
+
+    function processIframe() {
+      const iframe = document.getElementById("pbi-master");
+      const src = iframe.getAttribute("src");
+      const r = getParam(src, "r");
+      const name = PBI_REPORT_MAP[r] || "(desconocido)";
+      if (!r) return;
+
+      if (shouldCount(r)) {
+        pushToDataLayer(r, name, src);
+        sendToSheet(r, name, src);
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", processIframe);
+    } else {
+      processIframe();
+    }
+  </script>
 </body>
 </html>
