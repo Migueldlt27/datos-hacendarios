@@ -69,62 +69,46 @@
   </div>
 
   <!-- === CONTADOR: impresión y vista a 10s del iframe maestro === -->
-  <script>
-    // ENDPOINT de Apps Script (mismo que usa tu script previo; actualiza si cambia)
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbyfA469L2FdDA48JvhOixe15HmrDbaceTixbAZEZ9_esEFNN8c4sBL0qgs9iG5ndza0/exec";
+ <script>
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbyCvlkQS2D2uuSLFvq0hQz45ka8kVyFsnYhM1ThglEDR7ZZDb_Ny-fj_cwkovIeP1V1/exec"; // reemplaza
 
-    (function(){
-      const iframe = document.getElementById('pbi-master');
-      if(!iframe) return;
+  function postRow(kind){
+    const iframe = document.getElementById('pbi-master');
+    const src  = iframe.getAttribute('src') || '';
+    const name = iframe.dataset.pbiName || iframe.getAttribute('title') || 'PBI Maestro';
 
-      const src = iframe.getAttribute('src') || '';
-      const name = iframe.dataset.pbiName || iframe.getAttribute('title') || 'PBI Maestro';
+    const payload = {
+      r: (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + Math.random().toString(16).slice(2))),
+      kind,
+      name,
+      src,
+      source: location.href,
+      userAgent: navigator.userAgent,
+      ts: Date.now()
+    };
 
-      function postRow(kind){
-        const payload = {
-          r: (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + Math.random().toString(16).slice(2))),
-          kind,
-          name,
-          src,
-          source: location.href,
-          userAgent: navigator.userAgent,
-          ts: Date.now()
-        };
-        try {
-          if (navigator.sendBeacon) {
-            const blob = new Blob([JSON.stringify(payload)], {type:'application/json'});
-            navigator.sendBeacon(ENDPOINT, blob);
-          } else {
-            fetch(ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload), keepalive:true });
-          }
-        } catch(e){}
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'pbi_master_' + kind, report_name: name, report_src: src });
+    try {
+      const body = JSON.stringify(payload);
+
+      // 1) Enviar con sendBeacon si se puede (tipo text/plain para evitar preflight)
+      if (navigator.sendBeacon) {
+        const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
+        navigator.sendBeacon(ENDPOINT, blob);
+      } else {
+        // 2) fetch sin preflight (text/plain)
+        fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body,
+          keepalive: true
+        });
       }
+    } catch(e){ /* silenciar */ }
 
-      function once(key){
-        try {
-          if (sessionStorage.getItem(key)) return false;
-          sessionStorage.setItem(key, '1');
-          return true;
-        } catch(e){ return true; }
-      }
-
-      const io = new IntersectionObserver((entries)=>{
-        for (const e of entries){
-          if (!e.isIntersecting || e.intersectionRatio < 0.25) continue;
-          if (once('pbi_master_impression')) postRow('impression');
-          if (once('pbi_master_view10s')) {
-            setTimeout(()=> {
-              if (document.body.contains(iframe)) postRow('view_10s');
-            }, 10000);
-          }
-        }
-      }, {threshold: [0.25]});
-      io.observe(iframe);
-
-      if (once('pbi_master_session')) postRow('session_load');
-    })();
-  </script>
+    // Opcional: GA4
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'pbi_master_' + kind, report_name: name, report_src: src });
+  }
+</script>
 </body>
 </html>
