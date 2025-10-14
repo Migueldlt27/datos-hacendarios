@@ -14,24 +14,36 @@
       j.async=true;
       j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
       f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-P6SC6N4M'); /* ← Reemplaza por tu ID real */
+    })(window,document,'script','dataLayer','GTM-P6SC6N4M'); /* ← Reemplaza por tu ID real si aplica */
   </script>
   <!-- End Google Tag Manager -->
 
   <style>
+    :root { color-scheme: light dark; }
+    html, body { height: 100%; }
     body {
       margin: 0;
       padding: 0;
       background: #f7f7f7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    }
+    .wrap {
+      width: 100%;
+      height: 100%;
+      max-width: 1800px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+    header {
+      padding: 8px 14px;
+      font: 600 16px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: #222;
     }
     iframe {
       width: 100%;
-      height: 100vh;
+      height: calc(100vh - 42px);
       border: none;
+      background: #fff;
     }
   </style>
 </head>
@@ -44,86 +56,76 @@
   </noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <!-- === IFRAME DE POWER BI (Archivo Maestro) === -->
-  <iframe id="pbi-master" 
-    src="https://app.powerbi.com/view?r=eyJrIjoiYjY4ZTVlMTEtNTExNS00OTU5LTgzZmUtNTZiYmVlZjQ1MzRkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
-    allowfullscreen="true">
-  </iframe>
+  <div class="wrap">
+    <header>INDETEC · Datos Hacendarios — Archivo Maestro</header>
 
-  <!-- === SCRIPT DE CONTABILIZACIÓN === -->
+    <!-- === IFRAME DE POWER BI (Archivo Maestro) === -->
+    <iframe id="pbi-master"
+      title="Archivo Maestro - INDETEC"
+      data-pbi-name="Archivo Maestro"
+      src="https://app.powerbi.com/view?r=eyJrIjoiYjY4ZTVlMTEtNTExNS00OTU5LTgzZmUtNTZiYmVlZjQ1MzRkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+      allowfullscreen="true">
+    </iframe>
+  </div>
+
+  <!-- === CONTADOR: impresión y vista a 10s del iframe maestro === -->
   <script>
-    // Configuración de mapeo (r → nombre del reporte)
-    const PBI_REPORT_MAP = {
-      "eyJrIjoiYjY4ZTVlMTEtNTExNS00OTU5LTgzZmUtNTZiYmVlZjQ1MzRkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9": "Archivo Maestro"
-    };
+    // ENDPOINT de Apps Script (mismo que usa tu script previo; actualiza si cambia)
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbyfA469L2FdDA48JvhOixe15HmrDbaceTixbAZEZ9_esEFNN8c4sBL0qgs9iG5ndza0/exec";
 
-    // === URL del endpoint de Google Apps Script ===
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbyfA469L2FdDA48JvhOixe15HmrDbaceTixbAZEZ9_esEFNN8c4sBL0qgs9iG5ndza0/exec"; // ← Sustituye esto
+    (function(){
+      const iframe = document.getElementById('pbi-master');
+      if(!iframe) return;
 
-    // === Utilidades ===
-    function getParam(url, key) {
-      try {
-        const u = new URL(url);
-        return u.searchParams.get(key) || null;
-      } catch(e) { return null; }
-    }
+      const src = iframe.getAttribute('src') || '';
+      const name = iframe.dataset.pbiName || iframe.getAttribute('title') || 'PBI Maestro';
 
-    function shouldCount(r) {
-      try {
-        const key = `pbi_counted_${r}`;
-        if (sessionStorage.getItem(key)) return false;
-        sessionStorage.setItem(key, "1");
-        return true;
-      } catch(e) { return true; }
-    }
-
-    function pushToDataLayer(r, name, src) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "pbi_view",
-        pbi_r: r,
-        pbi_report_name: name,
-        pbi_src: src,
-        pbi_source: "github_embed"
-      });
-    }
-
-    function sendToSheet(r, name, src) {
-      try {
-        fetch(ENDPOINT, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            r: r,
-            name: name,
-            src: src,
-            source: "GitHub",
-            userAgent: navigator.userAgent,
-            ts: Date.now()
-          }),
-          keepalive: true
-        });
-      } catch(e) { console.error("Error al enviar datos:", e); }
-    }
-
-    function processIframe() {
-      const iframe = document.getElementById("pbi-master");
-      const src = iframe.getAttribute("src");
-      const r = getParam(src, "r");
-      const name = PBI_REPORT_MAP[r] || "(desconocido)";
-      if (!r) return;
-
-      if (shouldCount(r)) {
-        pushToDataLayer(r, name, src);
-        sendToSheet(r, name, src);
+      function postRow(kind){
+        const payload = {
+          r: (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + Math.random().toString(16).slice(2))),
+          kind,
+          name,
+          src,
+          source: location.href,
+          userAgent: navigator.userAgent,
+          ts: Date.now()
+        };
+        try {
+          if (navigator.sendBeacon) {
+            const blob = new Blob([JSON.stringify(payload)], {type:'application/json'});
+            navigator.sendBeacon(ENDPOINT, blob);
+          } else {
+            fetch(ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload), keepalive:true });
+          }
+        } catch(e){}
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'pbi_master_' + kind, report_name: name, report_src: src });
       }
-    }
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", processIframe);
-    } else {
-      processIframe();
-    }
+      function once(key){
+        try {
+          if (sessionStorage.getItem(key)) return false;
+          sessionStorage.setItem(key, '1');
+          return true;
+        } catch(e){ return true; }
+      }
+
+      const io = new IntersectionObserver((entries)=>{
+        for (const e of entries){
+          if (!e.isIntersecting || e.intersectionRatio < 0.25) continue;
+          if (once('pbi_master_impression')) postRow('impression');
+          if (once('pbi_master_view10s')) {
+            setTimeout(()=> {
+              if (document.body.contains(iframe)) postRow('view_10s');
+            }, 10000);
+          }
+        }
+      }, {threshold: [0.25]});
+      io.observe(iframe);
+
+      if (once('pbi_master_session')) postRow('session_load');
+    })();
   </script>
 </body>
 </html>
+
