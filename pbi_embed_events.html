@@ -63,17 +63,52 @@
     <iframe id="pbi-master"
       title="Archivo Maestro - INDETEC"
       data-pbi-name="Archivo Maestro"
-      src="https://app.powerbi.com/view?r=eyJrIjoiYjY4ZTVlMTEtNTExNS00OTU5LTgzZmUtNTZiYmVlZjQ1MzRkIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
+      src="https://app.powerbi.com/view?r=eyJrIjoiOTJhOWY0ODMtOWE2Zi00ODk0LTgzODgtMzVhMGEzZTMyOTIzIiwidCI6IjRhZjM1NGU0LTM0Y2MtNGM0Yy1hY2MwLTIyMmZkMDU1NTZiNiJ9"
       allowfullscreen="true">
     </iframe>
   </div>
 
-  <!-- === CONTADOR: impresión y vista a 10s del iframe maestro === -->
- <script>
-  const ENDPOINT = "https://script.google.com/macros/s/AKfycbyCvlkQS2D2uuSLFvq0hQz45ka8kVyFsnYhM1ThglEDR7ZZDb_Ny-fj_cwkovIeP1V1/exec"; // reemplaza
+<!-- === CONTADOR: impresión, vista a 10s y session_load del iframe maestro === -->
+<script>
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbyCvlkQS2D2uuSLFvq0hQz45ka8kVyFsnYhM1ThglEDR7ZZDb_Ny-fj_cwkovIeP1V1/exec"; // tu /exec
 
-  function postRow(kind){
+  // Envío robusto (sendBeacon si existe; si no, fetch text/plain)
+  function sendRow(payload) {
+    const body = JSON.stringify(payload);
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
+        navigator.sendBeacon(ENDPOINT, blob);
+      } else {
+        fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body,
+          keepalive: true
+        });
+      }
+    } catch (_) {}
+  }
+
+  // Registrar evento con GA4 opcional
+  function pushGA(kind, name, src) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'pbi_master_' + kind, report_name: name, report_src: src });
+  }
+
+  // Anti doble-conteo por sesión
+  function once(key) {
+    try {
+      if (sessionStorage.getItem(key)) return false;
+      sessionStorage.setItem(key, '1');
+      return true;
+    } catch(_) { return true; }
+  }
+
+  // Construye payload y envía
+  function postRow(kind) {
     const iframe = document.getElementById('pbi-master');
+    if (!iframe) return;
     const src  = iframe.getAttribute('src') || '';
     const name = iframe.dataset.pbiName || iframe.getAttribute('title') || 'PBI Maestro';
 
@@ -86,30 +121,43 @@
       userAgent: navigator.userAgent,
       ts: Date.now()
     };
-
-    try {
-      const body = JSON.stringify(payload);
-
-      // 1) Enviar con sendBeacon si se puede (tipo text/plain para evitar preflight)
-      if (navigator.sendBeacon) {
-        const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
-        navigator.sendBeacon(ENDPOINT, blob);
-      } else {
-        // 2) fetch sin preflight (text/plain)
-        fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body,
-          keepalive: true
-        });
-      }
-    } catch(e){ /* silenciar */ }
-
-    // Opcional: GA4
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'pbi_master_' + kind, report_name: name, report_src: src });
+    sendRow(payload);
+    pushGA(kind, name, src);
   }
+
+  // Inicializa observadores y eventos
+  (function initCounter(){
+    const iframe = document.getElementById('pbi-master');
+    if (!iframe) return;
+
+    // 0) Carga de sesión (una vez por sesión)
+    if (once('pbi_master_session_load')) postRow('session_load');
+
+    // 1) Impresión cuando ≥25% visible
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting || e.intersectionRatio < 0.25) continue;
+
+        if (once('pbi_master_impression')) {
+          postRow('impression');
+        }
+
+        // 2) Vista sostenida a 10s
+        if (once('pbi_master_view_10s')) {
+          setTimeout(() => {
+            if (document.body.contains(iframe)) postRow('view_10s');
+          }, 10000);
+        }
+      }
+    }, { threshold: [0.25] });
+
+    // Espera a que el iframe exista en el DOM y obsérvalo
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => io.observe(iframe));
+    } else {
+      io.observe(iframe);
+    }
+  })();
 </script>
 </body>
 </html>
-
